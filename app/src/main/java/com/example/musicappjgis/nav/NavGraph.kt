@@ -19,8 +19,8 @@ fun AppNavGraph() {
                 }
             )
         }
-        composable(Routes.Detail) { backStackEntry ->
-            val arg = backStackEntry.savedStateHandle.get<AlbumArg>("albumArg")
+        composable(Routes.Detail) {
+            val arg = navController.previousBackStackEntry?.savedStateHandle?.get<AlbumArg>("albumArg")
             DetailScreen(albumId = arg?.albumId ?: "")
         }
     }
