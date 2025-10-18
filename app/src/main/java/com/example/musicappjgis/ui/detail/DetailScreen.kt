@@ -67,7 +67,12 @@ fun DetailScreen(albumId: String) {
         }
     }
 
-    Scaffold(bottomBar = { MiniPlayer() }) { inner ->
+    val current = state.value.data
+    val miniImage = current?.image ?: ""
+    val miniTitle = current?.title ?: "Now Playing"
+    val miniArtist = current?.artist ?: "..."
+
+    Scaffold(bottomBar = { MiniPlayer(imageUrl = miniImage, title = miniTitle, artist = miniArtist) }) { inner ->
         when {
             state.value.loading -> {
                 Box(modifier = Modifier.fillMaxSize().padding(inner), contentAlignment = Alignment.Center) {
@@ -93,16 +98,11 @@ fun DetailScreen(albumId: String) {
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {
-                        DetailHeader(
-                            title = album.title,
-                            artist = album.artist,
-                            imageUrl = album.image
-                        )
+                        DetailHeader(title = album.title, artist = album.artist, imageUrl = album.image)
                     }
                     item {
                         Card(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                             shape = MaterialTheme.shapes.large
@@ -115,8 +115,7 @@ fun DetailScreen(albumId: String) {
                     }
                     item {
                         Surface(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             color = Color(0xFFEDE7FF),
                             shape = MaterialTheme.shapes.medium
                         ) {
@@ -128,11 +127,7 @@ fun DetailScreen(albumId: String) {
                         }
                     }
                     items(tracks) { track ->
-                        TrackItem(
-                            imageUrl = album.image,
-                            title = track,
-                            artist = album.artist
-                        )
+                        TrackItem(imageUrl = album.image, title = track, artist = album.artist)
                     }
                     item { Spacer(modifier = Modifier.height(4.dp)) }
                 }
@@ -157,11 +152,7 @@ fun DetailHeader(title: String, artist: String, imageUrl: String) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, PurpleLight.copy(alpha = 0.9f))
-                    )
-                )
+                .background(Brush.verticalGradient(colors = listOf(Color.Transparent, PurpleLight.copy(alpha = 0.9f))))
         )
         Column(
             modifier = Modifier
@@ -187,8 +178,7 @@ fun DetailActions() {
 @Composable
 fun TrackItem(imageUrl: String, title: String, artist: String) {
     Card(
-        modifier = Modifier
-            .padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = MaterialTheme.shapes.medium

@@ -65,19 +65,18 @@ fun HomeScreen(onAlbumClick: (String) -> Unit) {
         }
     }
 
+    val mini = state.value.data?.firstOrNull()
+    val miniImage = mini?.image ?: ""
+    val miniTitle = mini?.title ?: "Now Playing"
+    val miniArtist = mini?.artist ?: "..."
+
     Scaffold(
-        bottomBar = { MiniPlayer() }
+        bottomBar = { MiniPlayer(imageUrl = miniImage, title = miniTitle, artist = miniArtist) }
     ) { inner ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(PurpleLight, Background),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
-                    )
-                )
+                .background(Brush.verticalGradient(listOf(PurpleLight, Background)))
                 .padding(inner)
         ) {
             when {
@@ -95,9 +94,7 @@ fun HomeScreen(onAlbumClick: (String) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(text = "Algo salió mal")
-                        Button(onClick = { retry() }) {
-                            Text(text = "Retry")
-                        }
+                        Button(onClick = { retry() }) { Text(text = "Retry") }
                     }
                 }
                 else -> {
