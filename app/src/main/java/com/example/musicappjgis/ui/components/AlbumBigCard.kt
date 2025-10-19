@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,10 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.musicappjgis.ui.theme.MusicAppJGISTheme
 
 @Composable
 fun AlbumBigCard(
@@ -37,60 +36,59 @@ fun AlbumBigCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(180.dp)
+            .aspectRatio(1.3f)
             .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        shape = MaterialTheme.shapes.large
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        shape = MaterialTheme.shapes.extraLarge
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .matchParentSize()
                     .background(
                         Brush.verticalGradient(
-                            listOf(Color.Transparent, Color(0x802E1CFF))
+                            listOf(Color(0x00000000), Color(0xAA3E1D6D))
                         )
                     )
             )
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 88.dp, bottom = 16.dp)
             ) {
-                Text(text = title, style = MaterialTheme.typography.headlineMedium, color = Color.White)
-                Text(text = artist, style = MaterialTheme.typography.bodyMedium, color = Color.White)
-                Spacer(modifier = Modifier.height(8.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .clickable { onPlayClick() }
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "▶", color = Color.Black, style = MaterialTheme.typography.titleLarge)
-                }
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = artist,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.9f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .clickable { onPlayClick() }
+                    .padding(10.dp)
+            ) {
+                Text(text = "▶", color = Color(0xFF3E1D6D), style = MaterialTheme.typography.titleLarge)
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AlbumBigCardPreview() {
-    MusicAppJGISTheme {
-        AlbumBigCard(
-            title = "Tales of Ithiria",
-            artist = "Haggard",
-            imageUrl = "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg",
-            onClick = {},
-            onPlayClick = {}
-        )
     }
 }

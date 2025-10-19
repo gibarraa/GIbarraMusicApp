@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +37,7 @@ fun MiniPlayer(imageUrl: String, title: String, artist: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(72.dp)
-            .background(Color(0xFF1E1E1E))
+            .background(Color(0xFF34185F))
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -49,24 +49,32 @@ fun MiniPlayer(imageUrl: String, title: String, artist: String) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(48.dp)
-                    .clip(RoundedCornerShape(8.dp)),
+                    .clip(MaterialTheme.shapes.medium),
                 contentScale = ContentScale.Crop,
-                placeholder = ColorPainter(Color(0xFF3A3A3A)),
-                error = ColorPainter(Color(0xFF3A3A3A))
+                placeholder = ColorPainter(Color(0xFF4A2B7A)),
+                error = ColorPainter(Color(0xFF4A2B7A))
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
-                Text(text = title, color = Color.White, style = MaterialTheme.typography.bodyMedium, maxLines = 1)
-                Text(text = artist, color = Color.LightGray, style = MaterialTheme.typography.bodySmall, maxLines = 1)
+                Text(text = title, color = Color.White, style = MaterialTheme.typography.titleMedium, maxLines = 1)
+                Text(text = artist, color = Color(0xFFD9CFFF), style = MaterialTheme.typography.bodySmall, maxLines = 1)
             }
         }
-        Text(
-            text = if (isPlaying) "⏸" else "▶",
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier
-                .size(36.dp)
-                .clickable { isPlaying = !isPlaying }
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .clickable { isPlaying = !isPlaying },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(text = if (isPlaying) "⏸" else "▶", color = Color(0xFF34185F), style = MaterialTheme.typography.titleLarge)
+            }
+        }
     }
 }
